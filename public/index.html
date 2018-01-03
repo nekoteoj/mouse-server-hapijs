@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+    crossorigin="anonymous">
+
+  <title>Mouse Server Home</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Mouse Server</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto"></ul>
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#aboutModal">About</button>
+    </div>
+  </nav>
+  <div class="container" style="text-align:center; margin-top: 30px">
+    <h3>Simple Controller</h3>
+  </div>
+  <div class="container" style="background-color:whitesmoke; width: auto; display: table; margin: 0 auto; margin-top: 20px;">
+    <table class="table" style="width:1px">
+      <tr>
+        <td></td>
+        <td>
+          <button type="button" id="up" onclick="moveBy(0, -20)" class="btn btn-lg btn-dark">U</button>
+        </td>
+        <td></td>
+        <td>
+          <button type="button" id="scrollU" onclick="scrollMouse(-20, 0)" class="btn btn-dark">SU</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="button" id="left" onclick="moveBy(-20, 0)" class="btn btn-lg btn-dark">L</button>
+        </td>
+        <td>
+          <button type="button" id="down" onclick="moveBy(0, 20)" class="btn btn-lg btn-dark">D</button>
+        </td>
+        <td>
+          <button type="button" id="right" onclick="moveBy(20, 0)" class="btn btn-lg btn-dark">R</button>
+        </td>
+        <td>
+          <button type="button" id="scrollD" onclick="scrollMouse(20, 0)" class="btn btn-dark">SD</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="button" id="scrollL" onclick="scrollMouse(0, -20)" class="btn btn-dark">SL</button>
+        </td>
+        <td></td>
+        <td>
+          <button type="button" id="scrollR" onclick="scrollMouse(0, 20)" class="btn btn-dark">SR</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="container" style="background-color:grey; width: auto; display: table; margin: 0 auto; margin-top: 20px;">
+    <table class="table" style="width:1px">
+      <tr>
+        <td>
+          <button type="button" id="lclick" onclick="leftClick()" class="btn btn btn-dark">L CLICK</button>
+        </td>
+        <td>
+          <button type="button" id="rclick" onclick="rightClick()" class="btn btn btn-dark">R CLICK</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">About</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="text-align:center">
+          <h3>Simple Mouse Server</h3>
+          <h4>version 1.0</h4>
+          <h6>By Pisit Wajanasara</h6>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+    crossorigin="anonymous"></script>
+  <script>
+    function postAjax(url, data, success) {
+      var params = typeof data == 'string' ? data : Object.keys(data).map(
+        function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
+      ).join('&');
+
+      var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+      xhr.open('POST', url);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState > 3 && xhr.status == 200) { success(xhr.responseText); }
+      };
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.send(params);
+      return xhr;
+    }
+
+    function moveBy(x, y) {
+      postAjax('/move-by', { x: x, y: y }, function (data) { });
+    }
+
+    function rightClick() {
+      postAjax('/right-click', {}, function (data) { });
+    }
+
+    function leftClick() {
+      postAjax('/left-click', {}, function (data) { });
+    }
+
+    function scrollMouse(v, h) {
+      console.log("Pass here");
+      postAjax('/scroll-by', { v: v, h: h }, function (data) { });
+    }
+
+  </script>
+</body>
+
+</html>
